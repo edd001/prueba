@@ -88,4 +88,5 @@ dependencies {
 
     //Blur
     implementation 'com.eightbitlab:blurview:1.6.6'
+    implementation 'androidx.palette:palette:1.0.0'
 }

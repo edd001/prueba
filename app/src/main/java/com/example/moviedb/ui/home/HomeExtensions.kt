@@ -1,5 +1,6 @@
 package com.example.moviedb.ui.home
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -20,10 +21,11 @@ import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import com.example.domain.models.Movie
 import com.example.moviedb.R
-import com.example.moviedb.base.BaseActivity
 import com.example.moviedb.databinding.ItemMovieBinding
 import com.example.moviedb.utils.Constants
 import com.example.moviedb.utils.EndlessRecyclerViewScrollListener
+import com.example.moviedb.utils.show
+import com.example.moviedb.utils.hide
 import com.example.web.NetworkResult
 import com.example.web.WebConstants
 
@@ -32,70 +34,8 @@ fun HomeFragment.initViewModel(){
 }
 
 fun HomeFragment.initView(){
-    val items = resources.getStringArray(R.array.order_array)
-
     binding.lblEmpty.setOnClickListener {
         viewModel.fetchMoviesByPopularity()
-    }
-
-    val spinnerAdapter = object : ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_item, items) {
-        override fun isEnabled(position: Int): Boolean {
-            // Disable the first item from Spinner
-            // First item will be used for hint
-            return position != 0
-        }
-
-        override fun getDropDownView(
-            position: Int,
-            convertView: View?,
-            parent: ViewGroup
-        ): View {
-            val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
-            //set the color of first item in the drop down list to gray
-            if(position == 0) {
-                view.setTextColor(Color.GRAY)
-            } else {
-                view.setTextColor(Color.BLACK)
-            }
-            return view
-        }
-    }
-
-    spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-    binding.spinner.adapter = spinnerAdapter
-
-    binding.spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-        }
-
-        override fun onItemSelected(
-            parent: AdapterView<*>?,
-            view: View?,
-            position: Int,
-            id: Long
-        ) {
-            view?.let {
-                when (parent!!.getItemAtPosition(position).toString()) {
-                    items[0] -> {
-                        (view as TextView).setTextColor(Color.GRAY)
-                    }
-                    items[1] -> {
-                        (view as TextView).setTextColor(Color.WHITE)
-                        viewModel.fetchMoviesByPopularity()
-                        viewModel.areOptionsChanged = true
-                        viewModel.isRatingMovies = false
-                        viewModel.pageCounter = Constants.FIRST_PAGE
-                    }
-                    items[2] -> {
-                        (view as TextView).setTextColor(Color.WHITE)
-                        viewModel.fetchMoviesByRating()
-                        viewModel.areOptionsChanged = true
-                        viewModel.isRatingMovies = true
-                        viewModel.pageCounter = Constants.FIRST_PAGE
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -113,15 +53,7 @@ fun HomeFragment.initRecyclerView(){
                 }else{
                     tempPosition
                 }
-                val loader = ImageLoader(requireContext())
-                val req = ImageRequest.Builder(requireContext())
-                    .data(WebConstants.BASE_IMG_URL + viewModel.listMovies[id].poster_path) // demo link
-                    .target { result ->
-                        (activity as BaseActivity?)?.changeBackground((result as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true))
-                    }
-                    .build()
-
-                val disposable = loader.enqueue(req)
+                changeBackground(id)
                 position = tempPosition
             }
         }
@@ -142,7 +74,7 @@ fun HomeFragment.initRecyclerView(){
         ItemMovieBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
     }
 
-    mAdapter.expressionViewHolderBinding = { item, viewBinding, position, adapter->
+    mAdapter.expressionViewHolderBinding = { item, viewBinding, position, adapter ->
         val view = viewBinding as ItemMovieBinding
 
         view.ivMovie.load(WebConstants.BASE_IMG_URL + item.poster_path){
@@ -151,15 +83,15 @@ fun HomeFragment.initRecyclerView(){
         }
 
         view.ivMovie.clipToOutline = true
-        view.tvDescriptionMovie.text = if (item.overview.isNullOrEmpty()){
-            getString(R.string.empty_description)
-        } else {
-            item.overview
-        }
+//        view.tvDescriptionMovie.tex t = if (item.overview.isNullOrEmpty()){
+//            getString(R.string.empty_description)
+//        } else {
+//            item.overview
+//        }
         view.tvDetailsMovie.text = resources.getString(R.string.date_of_release, item.release_date)
         view.tvTitleMovie.text = item.title
-        view.rbMovie.max = 10
-        view.rbMovie.rating = item.vote_average!!.toFloat()
+//        view.rbMovie.max = 10
+        view.rbMovie.progress = item.vote_average?.toInt() ?: 0
 
         view.ivLike.setOnClickListener {
             viewModel.saveMovie(item)
@@ -183,8 +115,8 @@ fun HomeFragment.initObservers(){
     viewModel.movies.observe(viewLifecycleOwner){ result ->
         when(result){
             is NetworkResult.Success -> {
-                itemGone(binding.pbCircle)
-                itemVisible(binding.rvMovies)
+                binding.pbCircle.hide()
+                binding.rvMovies.show()
                 result.data?.let {
                     viewModel.pageCounter = it.page
                     viewModel.pageCounterMax = it.total_pages
@@ -194,27 +126,53 @@ fun HomeFragment.initObservers(){
                     } else {
                         viewModel.listMovies = (viewModel.listMovies + it.results) as ArrayList<Movie>
                     }
+                    changeBackground(Constants.FIRST_ELEMENT)
                     mAdapter.listOfItems = viewModel.listMovies
                 }
             }
             is NetworkResult.Error -> {
-                itemGone(binding.pbCircle)
-                itemGone(binding.rvMovies)
-                itemVisible(binding.lblEmpty)
+                binding.pbCircle.hide()
+                binding.rvMovies.hide()
+                binding.lblEmpty.show()
             }
             is NetworkResult.Loading -> {
-                itemVisible(binding.pbCircle)
-                itemGone(binding.rvMovies)
-                itemGone(binding.lblEmpty)
+                binding.pbCircle.show()
+                binding.rvMovies.hide()
+                binding.lblEmpty.hide()
+            }
+        }
+    }
+    activityViewModel.spinnerIndex.observe(viewLifecycleOwner){
+        when (it) {
+            activityViewModel.items[1] -> {
+                viewModel.fetchMoviesByPopularity()
+                viewModel.areOptionsChanged = true
+                viewModel.isRatingMovies = false
+                viewModel.pageCounter = Constants.FIRST_PAGE
+            }
+            activityViewModel.items[2] -> {
+                viewModel.fetchMoviesByRating()
+                viewModel.areOptionsChanged = true
+                viewModel.isRatingMovies = true
+                viewModel.pageCounter = Constants.FIRST_PAGE
             }
         }
     }
 }
 
-fun HomeFragment.itemGone(item: View){
-    item.visibility = View.GONE
-}
+fun HomeFragment.changeBackground(id: Int){
+    val loader = ImageLoader(requireContext())
+    val req = ImageRequest.Builder(requireContext())
+        .data(WebConstants.BASE_IMG_URL + viewModel.listMovies[id].poster_path) // demo link
+        .target { result ->
+            if (activityViewModel.isReadyForNextChange){
+                activityViewModel.backgroundForBlur.value =
+                    (result as BitmapDrawable)
+                        .bitmap
+                        .copy(Bitmap.Config.ARGB_8888, true)
+            }
+        }
+        .build()
 
-fun HomeFragment.itemVisible(item: View){
-    item.visibility = View.VISIBLE
+    val disposable = loader.enqueue(req)
 }

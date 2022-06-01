@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.domain.models.Movie
+import com.example.moviedb.base.BaseViewModel
 import com.example.moviedb.databinding.FragmentHomeBinding
 import com.example.moviedb.utils.BaseAdapter
 import com.example.moviedb.utils.EndlessRecyclerViewScrollListener
@@ -18,9 +20,9 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     val viewModel: HomeVM by viewModels()
+    val activityViewModel: BaseViewModel by activityViewModels()
     val binding get() = _binding!!
     var mAdapter = BaseAdapter<Movie>()
-    var bitmap: Bitmap? = null
     var position = 0
     var scrollListener: EndlessRecyclerViewScrollListener? = null
 

@@ -38,8 +38,7 @@ fun MovieDetailsFragment.showData(movieDetails: MovieDetails) {
     binding.tvDurationMovie.text = getString(R.string.duration, movieDetails.runtime)
     mAdapterCompanies.listOfItems = movieDetails.production_companies as MutableList<ProductionCompany>?
     mAdapterGenres.listOfItems = movieDetails.genres as MutableList<Genre>?
-    binding.rbMovie.max = 10
-    binding.rbMovie.rating = movieDetails.vote_average!!.toFloat()
+    binding.rbMovie.progress = movieDetails.vote_average!!.toInt()
 
 
     val loader = ImageLoader(requireContext())

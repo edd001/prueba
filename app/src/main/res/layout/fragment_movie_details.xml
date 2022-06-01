@@ -82,6 +82,8 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_marginTop="16dp"
+                android:max="10"
+                android:progressTint="@color/gold"
                 app:layout_constraintEnd_toEndOf="@id/iv_movie"
                 app:layout_constraintTop_toBottomOf="@id/tv_title_movie"
                 />

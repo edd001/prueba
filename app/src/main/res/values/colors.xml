@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#4286f4</color>
     <color name="colorEndGradient">#373B44</color>
+    <color name="gold">#FFB04F</color>
 
     <color name="white_60">#99ffffff</color>
     <color name="white_50">#80ffffff</color>
@@ -23,4 +24,5 @@
     <color name="black_60">#99000000</color>
     <color name="black_40">#66000000</color>
     <color name="black_20">#33000000</color>
+    <color name="transparent_white">#00FFFFFF</color>
 </resources>

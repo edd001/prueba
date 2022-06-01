@@ -15,6 +15,7 @@
     <string name="duration">Duración: %1$d min.</string>
     <string name="err_network">Hubo un problema al obtener los datos.</string>
     <string name="empty_description">Sin descripción.</string>
+    <string name="rating">"Rating: "</string>
     <string-array name="order_array">
         <item>Ordenar por…</item>
         <item>Populares</item>

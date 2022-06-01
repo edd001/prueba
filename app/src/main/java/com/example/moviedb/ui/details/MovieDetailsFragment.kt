@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.domain.models.Genre
 import com.example.domain.models.Movie
 import com.example.domain.models.ProductionCompany
 import com.example.moviedb.R
+import com.example.moviedb.base.BaseViewModel
 import com.example.moviedb.databinding.FragmentMovieDetailsBinding
 import com.example.moviedb.ui.favorites.FavoritesVM
 import com.example.moviedb.utils.BaseAdapter
@@ -20,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     val viewModel: MovieDetailsVM by viewModels()
+    val activityViewModel: BaseViewModel by activityViewModels()
     var mAdapterGenres = BaseAdapter<Genre>()
     var mAdapterCompanies = BaseAdapter<ProductionCompany>()
     val args: MovieDetailsFragmentArgs by navArgs()
@@ -30,6 +33,7 @@ class MovieDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        activityViewModel.isCollapsedMode.value = true
         initRecyclerView()
         initObserver()
         return binding.root
@@ -42,6 +46,7 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        activityViewModel.isCollapsedMode.value = false
         _binding = null
     }
 }
