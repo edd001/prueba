@@ -11,14 +11,12 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("movie/popular")
     suspend fun getMoviesByPopularity(
-        @Query("api_key") api: String,
         @Query("language") language: String,
         @Query("page") page: Number
     ): Response<MoviePages>
 
     @GET("movie/top_rated")
     suspend fun getMoviesByRating(
-        @Query("api_key") api: String,
         @Query("language") language: String,
         @Query("page") page: Number
     ): Response<MoviePages>
@@ -26,7 +24,6 @@ interface ApiService {
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Number,
-        @Query("api_key") api: String,
         @Query("language") language: String,
     ): Response<MovieDetails>
 }

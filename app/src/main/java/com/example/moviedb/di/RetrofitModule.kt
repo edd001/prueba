@@ -1,6 +1,7 @@
 package com.example.moviedb.di
 
 import com.example.web.ApiService
+import com.example.web.BuildConfig
 import com.example.web.WebConstants
 import com.example.web.serializers.BooleanDeserializer
 import com.example.web.serializers.BooleanSerializer
@@ -32,6 +33,14 @@ class RetrofitModule {
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor())
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                val originalHttpUrl = chain.request().url
+                val url = originalHttpUrl.newBuilder().addQueryParameter("api_key", BuildConfig.API_KEY).build()
+                request.url(url)
+                val response = chain.proceed(request.build())
+                return@addInterceptor response
+            }
             .build()
     }
 

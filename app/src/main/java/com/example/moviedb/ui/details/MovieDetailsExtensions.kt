@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import com.example.moviedb.databinding.ItemTagsBinding
 import com.example.moviedb.utils.Constants
 import com.example.web.NetworkResult
 import com.example.web.WebConstants
+import com.google.android.material.chip.Chip
 
 fun MovieDetailsFragment.showData(movieDetails: MovieDetails) {
     binding.ivMovie.load(WebConstants.BASE_IMG_URL + movieDetails.poster_path){
@@ -36,16 +38,30 @@ fun MovieDetailsFragment.showData(movieDetails: MovieDetails) {
     }
     binding.tvDetailsMovie.text = getString(R.string.release, movieDetails.release_date)
     binding.tvDurationMovie.text = getString(R.string.duration, movieDetails.runtime)
-    mAdapterCompanies.listOfItems = movieDetails.production_companies as MutableList<ProductionCompany>?
-    mAdapterGenres.listOfItems = movieDetails.genres as MutableList<Genre>?
     binding.rbMovie.progress = movieDetails.vote_average!!.toInt()
 
+    if (!movieDetails.production_companies.isNullOrEmpty()){
+        (movieDetails.production_companies as MutableList<ProductionCompany>).forEach { company ->
+            binding.chipsCompanies.addView(createTagChip(company.name))
+        }
+    }
+
+    if (!movieDetails.genres.isNullOrEmpty()){
+        (movieDetails.genres as MutableList<Genre>).forEach { genre ->
+            binding.chipsGenres.addView(createTagChip(genre.name))
+        }
+    }
 
     val loader = ImageLoader(requireContext())
     val req = ImageRequest.Builder(requireContext())
         .data(WebConstants.BASE_IMG_URL + movieDetails.poster_path) // demo link
         .target { result ->
-            (activity as BaseActivity?)?.changeBackground((result as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true))
+            if (activityViewModel.isReadyForNextChange){
+                activityViewModel.backgroundForBlur.value =
+                    (result as BitmapDrawable)
+                        .bitmap
+                        .copy(Bitmap.Config.ARGB_8888, true)
+            }
         }
         .build()
 
@@ -82,36 +98,12 @@ fun MovieDetailsFragment.initObserver(){
     }
 }
 
-fun MovieDetailsFragment.initRecyclerView(){
-    val linearLayoutGenres = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-    val linearLayoutCompany = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-    mAdapterCompanies.expressionOnCreateViewHolder = { viewGroup ->
-        //Inflate the layout and send it to the adapter
-        ItemTagsBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+private fun MovieDetailsFragment.createTagChip(chipName: String): Chip {
+    return Chip(context).apply {
+        setChipBackgroundColorResource(R.color.black_40)
+        text = chipName
+        isCloseIconVisible = false
+        setTextColor(ContextCompat.getColor(context, R.color.white))
     }
-
-    mAdapterCompanies.expressionViewHolderBinding = { item, viewBinding, position, adapter ->
-        val view = viewBinding as ItemTagsBinding
-        view.tvTitleMovie.text = item.name
-
-    }
-
-    mAdapterGenres.expressionOnCreateViewHolder = { viewGroup ->
-        //Inflate the layout and send it to the adapter
-        ItemTagsBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-    }
-
-    mAdapterGenres.expressionViewHolderBinding = { item, viewBinding, position, adapter ->
-        val view = viewBinding as ItemTagsBinding
-        view.tvTitleMovie.text = item.name
-
-    }
-
-    binding.rvGenres.layoutManager = linearLayoutGenres
-    binding.rvGenres.adapter = mAdapterGenres
-
-    binding.rvCompanies.layoutManager = linearLayoutCompany
-    binding.rvCompanies.adapter = mAdapterCompanies
 
 }

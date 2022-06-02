@@ -7,16 +7,16 @@ class MoviesRepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : MoviesRepository, BaseApiResponse() {
     override suspend fun getMoviesByPopularity(page: Number) = safeApiCall {
-        apiService.getMoviesByPopularity(WebConstants.API_KEY, WebConstants.LANGUAGE, page)
+        apiService.getMoviesByPopularity(WebConstants.LANGUAGE, page)
     }
 
     override suspend fun getMoviesByRating(page: Number) = safeApiCall {
-        apiService.getMoviesByRating(WebConstants.API_KEY, WebConstants.LANGUAGE, page)
+        apiService.getMoviesByRating(WebConstants.LANGUAGE, page)
     }
 
 
     override suspend fun getMovieDetails(movieId: Number) = safeApiCall {
-        apiService.getMovieDetails(movieId, WebConstants.API_KEY, WebConstants.LANGUAGE)
+        apiService.getMovieDetails(movieId, WebConstants.LANGUAGE)
     }
 
 }

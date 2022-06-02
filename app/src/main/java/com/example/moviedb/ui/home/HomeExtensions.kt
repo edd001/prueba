@@ -83,14 +83,8 @@ fun HomeFragment.initRecyclerView(){
         }
 
         view.ivMovie.clipToOutline = true
-//        view.tvDescriptionMovie.tex t = if (item.overview.isNullOrEmpty()){
-//            getString(R.string.empty_description)
-//        } else {
-//            item.overview
-//        }
         view.tvDetailsMovie.text = resources.getString(R.string.date_of_release, item.release_date)
         view.tvTitleMovie.text = item.title
-//        view.rbMovie.max = 10
         view.rbMovie.progress = item.vote_average?.toInt() ?: 0
 
         view.ivLike.setOnClickListener {
@@ -126,7 +120,11 @@ fun HomeFragment.initObservers(){
                     } else {
                         viewModel.listMovies = (viewModel.listMovies + it.results) as ArrayList<Movie>
                     }
-                    changeBackground(Constants.FIRST_ELEMENT)
+                    if (activityViewModel.isFirstBackgroundForBlur){
+                        changeBackground(Constants.FIRST_ELEMENT)
+                        activityViewModel.isFirstBackgroundForBlur = false
+                    }
+
                     mAdapter.listOfItems = viewModel.listMovies
                 }
             }

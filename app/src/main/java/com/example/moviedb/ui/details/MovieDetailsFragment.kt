@@ -34,7 +34,6 @@ class MovieDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
         activityViewModel.isCollapsedMode.value = true
-        initRecyclerView()
         initObserver()
         return binding.root
     }

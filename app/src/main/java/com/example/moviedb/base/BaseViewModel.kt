@@ -11,6 +11,7 @@ import javax.inject.Inject
 class BaseViewModel @Inject constructor(): ViewModel() {
     var items = ArrayList<String>().toTypedArray()
     val backgroundForBlur = MutableLiveData<Bitmap>()
+    var isFirstBackgroundForBlur = true
     val spinnerIndex = MutableLiveData<String>()
     val isCollapsedMode = MutableLiveData(false)
     var isReadyForNextChange = true
