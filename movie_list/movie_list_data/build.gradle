@@ -1,7 +1,10 @@
 apply from: "$rootProject.projectDir/core-library.gradle"
 
 dependencies {
+    implementation project(":movie_list:movie_list_domain")
     sharedTestGroup dependencies
     sharedCoreGroup dependencies
     sharedHiltGroup dependencies
+    sharedInternetGroup dependencies
+    sharedDatabaseGroup dependencies
 }
