@@ -13,6 +13,14 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/movie_details" />
+            <option value="$PROJECT_DIR$/movie_details/movie_details_data" />
+            <option value="$PROJECT_DIR$/movie_details/movie_details_domain" />
+            <option value="$PROJECT_DIR$/movie_details/movie_details_presentation" />
+            <option value="$PROJECT_DIR$/movie_list" />
+            <option value="$PROJECT_DIR$/movie_list/movie_list_data" />
+            <option value="$PROJECT_DIR$/movie_list/movie_list_domain" />
+            <option value="$PROJECT_DIR$/movie_list/movie_list_presentation" />
             <option value="$PROJECT_DIR$/web" />
           </set>
         </option>
