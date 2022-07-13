@@ -1,0 +1,7 @@
+apply from: "$rootProject.projectDir/core-library.gradle"
+
+dependencies {
+    sharedTestGroup dependencies
+    sharedCoreGroup dependencies
+    sharedHiltGroup dependencies
+}
