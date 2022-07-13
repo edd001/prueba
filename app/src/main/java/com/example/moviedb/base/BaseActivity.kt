@@ -132,10 +132,6 @@ class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun changeBackground(bitmap: Bitmap?){
-        val bd = BitmapDrawable(resources, bitmap)
-        binding.drawer.setBackgroundDrawable(bd)
-    }
     private fun setupNavigationComponent() {
         val drawerToggle = ActionBarDrawerToggle(this, binding.drawer, R.string.open, R.string.close)
         binding.drawer.addDrawerListener(drawerToggle)
