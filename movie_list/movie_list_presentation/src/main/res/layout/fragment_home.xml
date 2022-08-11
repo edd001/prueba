@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.HomeFragment">
+    tools:context="com.example.movie_list_presentation.home.HomeFragment">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/pb_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:indicatorColor="@color/white"
+        app:indicatorColor="@android:color/white"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +22,7 @@
         android:id="@+id/lbl_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:visibility="gone"
         android:text="@string/empty_list"
         app:layout_constraintStart_toStartOf="parent"

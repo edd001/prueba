@@ -11,19 +11,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <ImageView
         android:id="@+id/iv_movie"
         android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_round_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/gl_tv_bottom"/>
 
     <ImageView
         android:id="@+id/iv_like"
@@ -89,21 +89,5 @@
             android:max="10"
             android:layout_weight="1"/>
     </LinearLayout>
-
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/tv_description_movie"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:gravity="center"-->
-<!--        android:ellipsize="end"-->
-<!--        android:maxLines="5"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:layout_constraintEnd_toEndOf="@id/iv_movie"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/iv_movie"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/tv_details_movie"-->
-<!--        tools:text="The Shawshank Redemption" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

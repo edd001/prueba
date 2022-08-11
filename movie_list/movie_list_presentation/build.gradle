@@ -1,7 +1,11 @@
 apply from: "$rootProject.projectDir/view-library.gradle"
+apply plugin: 'org.jetbrains.kotlin.android'
 
 dependencies {
-    sharedTestGroup dependencies
+    implementation project(path: ':movie_list:movie_list_domain')
     sharedCoreGroup dependencies
+    sharedViewGroup dependencies
     sharedHiltGroup dependencies
+    sharedTestGroup dependencies
+    sharedNavigationGroup dependencies
 }

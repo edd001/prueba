@@ -24,12 +24,16 @@ def versions = [
         okhttp:"4.9.0",
         room:"2.4.2",
         coroutines:"1.6.1",
-        material:"1.6.2",
+        material:"1.6.1",
+        fragment:"1.3.2",
+        activity:"1.3.1",
         constraint_layout:"2.1.4",
         databinding:"4.2.2",
         coil:"1.4.0",
         blurview:"1.6.6",
         palette:"1.0.0",
+        recyclerview:"1.1.0",
+        lifecycle:"2.4.0",
         appcompat:"1.4.2",
         kotlin:"1.8.0",
         junit:"4.13.2",
@@ -84,7 +88,14 @@ ext.sharedViewGroup = { dependencyHandler ->
     implementation "com.google.android.material:material:$versions.material"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
     implementation "androidx.databinding:databinding-runtime:$versions.databinding"
+    implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
     implementation "io.coil-kt:coil:$versions.coil"
+
+    //  Lifecycle Components
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+    implementation "androidx.fragment:fragment-ktx:$versions.fragment"
+    implementation "androidx.activity:activity-ktx:$versions.activity"
 
     //Blur
     implementation "com.eightbitlab:blurview:$versions.blurview"
@@ -106,4 +117,12 @@ ext.sharedCoreGroup = { dependencyHandler ->
     //Core
     implementation "androidx.core:core-ktx:$versions.kotlin"
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
+}
+
+ext.sharedNavigationGroup = { dependencyHandler ->
+    delegate = dependencyHandler
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.0"
 }
