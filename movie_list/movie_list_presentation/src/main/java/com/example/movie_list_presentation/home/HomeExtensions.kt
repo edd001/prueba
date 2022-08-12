@@ -66,10 +66,10 @@ fun HomeFragment.initRecyclerView(){
     mAdapter.expressionViewHolderBinding = { item, viewBinding, position, adapter ->
         val view = viewBinding as ItemMovieBinding
 
-//        view.ivMovie.load(WebConstants.BASE_IMG_URL + item.poster_path){
-//            crossfade(true)
-//            transformations(RoundedCornersTransformation(20f))
-//        }
+        view.ivMovie.load("WebConstants.BASE_IMG_URL" + item.poster_path){
+            crossfade(true)
+            transformations(RoundedCornersTransformation(20f))
+        }
 
         view.ivMovie.clipToOutline = true
         view.tvDetailsMovie.text = resources.getString(R.string.date_of_release, item.release_date)

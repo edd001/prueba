@@ -89,7 +89,6 @@ ext.sharedViewGroup = { dependencyHandler ->
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
     implementation "androidx.databinding:databinding-runtime:$versions.databinding"
     implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
-    implementation "io.coil-kt:coil:$versions.coil"
 
     //  Lifecycle Components
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
@@ -117,6 +116,13 @@ ext.sharedCoreGroup = { dependencyHandler ->
     //Core
     implementation "androidx.core:core-ktx:$versions.kotlin"
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
+}
+
+ext.sharedCoilGroup = { dependencyHandler ->
+    delegate = dependencyHandler
+
+    //Coil
+    implementation "io.coil-kt:coil:$versions.coil"
 }
 
 ext.sharedNavigationGroup = { dependencyHandler ->

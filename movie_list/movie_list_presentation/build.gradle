@@ -7,5 +7,6 @@ dependencies {
     sharedViewGroup dependencies
     sharedHiltGroup dependencies
     sharedTestGroup dependencies
+    sharedCoilGroup dependencies
     sharedNavigationGroup dependencies
 }
